@@ -18,3 +18,8 @@ A cool paper puzzle game that I am converting into a game.
 In this game, we mix pong and bricks! 
 
 ![Game Preview](pong/game.png)
+
+
+## Hangman
+
+Core golang builing logic

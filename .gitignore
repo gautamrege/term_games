@@ -6,6 +6,7 @@
 *.dylib
 connector
 pong
+hangman
 
 # Test binary, built with `go test -c`
 *.test
