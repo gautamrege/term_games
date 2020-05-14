@@ -1,7 +1,15 @@
 ## Connector 
 
 Just for fun, I'm trying to implement the 'Collector' game which I call "Connector"
-[The paper game explained](https://mathwithbaddrawings.com/2020/04/22/six-strategic-games-from-a-strange-and-bottomless-mind/r)
+
+## Game Explanation
+
+![alt text](https://raw.githubusercontent.com/anilmaurya/term_games/master/connector/Game-1.png)
+
+![alt text](https://raw.githubusercontent.com/anilmaurya/term_games/master/connector/Game-2.png)
+
+[Image Source](https://mathwithbaddrawings.com/2020/04/22/six-strategic-games-from-a-strange-and-bottomless-mind/)
+
 
 Things to learn here:
 
