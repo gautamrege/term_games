@@ -1,9 +1,10 @@
 package main
 
 import (
-	tl "github.com/JoelOtter/termloop"
 	"math/rand"
 	"time"
+
+	tl "github.com/JoelOtter/termloop"
 )
 
 // Inital size of brick, which reduces over time.
@@ -20,9 +21,9 @@ func (brick *Brick) Tick(event tl.Event) {
 }
 
 func (brick *Brick) Move() {
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	x := r.Int31() % (PLAY_WIDTH - BRICK_SIZE_DEFAULT)
-	y := r.Int31() % (PLAY_HEIGHT - BRICK_SIZE_DEFAULT)
+	rand.Seed(time.Now().UnixNano())
+	x := rand.Intn(PLAY_WIDTH-BRICK_SIZE_DEFAULT+1) + BRICK_SIZE_DEFAULT
+	y := rand.Intn(PLAY_HEIGHT-BRICK_SIZE_DEFAULT+1) + BRICK_SIZE_DEFAULT
 
 	// reduce the size of the brick as the score increases.
 	if Score == 4 || Score == 8 {
@@ -31,6 +32,24 @@ func (brick *Brick) Move() {
 	s := brick.size
 	brick.SetSize(s+s, s)
 	brick.SetPosition(int(x), int(y))
+}
+
+func (brick *Brick) Collide(collision tl.Physical) {
+	// Check if it's a Ball we're colliding with
+	if _, ok := collision.(*Ball); ok {
+		// Check if the ball crashes into this brick
+		x, y := brick.Position()
+		bx, by := GameBall.Position()
+
+		// Is ball{x,y} between the brick{x,y}?
+		if bx >= x && bx <= (x+brick.size+brick.size) && by >= y && by <= (y+brick.size) {
+			Score++ // increment score
+			if Score == 4 {
+				GameBall.IncSpeed() // speed up the game
+			}
+			brick.Move()
+		}
+	}
 }
 
 func NewBrick() Brick {
