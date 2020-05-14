@@ -1,6 +1,8 @@
 package main
 
-import tl "github.com/JoelOtter/termloop"
+import (
+	tl "github.com/JoelOtter/termloop"
+)
 
 const (
 	EMPTY int = iota
@@ -12,6 +14,8 @@ const (
 type Box struct {
 	*tl.Rectangle
 	Status int
+	Row    int
+	Col    int
 }
 
 func (box *Box) validateClick(ev tl.Event) bool {
@@ -42,19 +46,26 @@ func (box *Box) Tick(ev tl.Event) {
 				} else {
 					player := GAME.GetPlayer()
 					if player == RED {
-						box.SetColor(tl.ColorRed)
+						//box.SetColor(tl.ColorRed)
+						renderBall <- Ball{nil, RED, x, y}
 					} else {
-						box.SetColor(tl.ColorBlue)
+						//box.SetColor(tl.ColorBlue)
+						renderBall <- Ball{nil, BLUE, x, y}
 					}
 					box.Status = player
 				}
 				GAME.NextMove()
-
+				end, winner := GAME.EndGame()
+				if end {
+					renderWinner <- Player{
+						Color: winner[0].Status,
+					}
+				}
 			}
 		}
 	}
 }
 
-func NewBox(x, y int) Box {
-	return Box{tl.NewRectangle(x, y, BOX_WIDTH, BOX_HEIGHT, tl.ColorWhite), EMPTY}
+func NewBox(x, y, row, column int) Box {
+	return Box{tl.NewRectangle(x, y, BOX_WIDTH, BOX_HEIGHT, tl.ColorGreen), EMPTY, row, column}
 }
